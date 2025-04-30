@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Link } from 'react-router';
+import { AuthContext } from '../../AuthContext/AuthContext';
 
 const Login = () => {
+    const {signInUser} = use(AuthContext);
 
     const handleSubmit = e => {
         e.preventDefault();
+
+
+        const email= e.target.email.value;
+        const password = e.target.password.value;
+
+        signInUser(email, password)
+        .then(res => {
+            console.log(res.user);
+        }).catch(error => {
+            console.log(error);
+        })
+
         
     }
 
@@ -14,9 +28,9 @@ const Login = () => {
             <div className="card-body">
                 <form onSubmit={handleSubmit} className="fieldset">
                     <label className="label">Email</label>
-                    <input type="email" className="input" placeholder="Email" />
+                    <input type="email" name='email' className="input" placeholder="Email" />
                     <label className="label">Password</label>
-                    <input type="password" className="input" placeholder="Password" />
+                    <input type="password" name='password' className="input" placeholder="Password" />
                     <div><a className="link link-hover">Forgot password?</a></div>
                     <button className="btn btn-neutral mt-4">Login</button>
                 </form>
